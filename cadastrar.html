@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante do veneno - Cadastrar Produtos</title>
+    <link rel="stylesheet" href="css/style.css">
+   
+   <script>
+        function salvar(){    
+            let nome = document.getElementById("nome").value.trim()
+            let preco = document.getElementById("preco").value.trim()
+
+            if (nome == "" || nome.length < 3){
+                alert("Preencha o nome do Produto!")
+                return false
+            }
+
+            if (preco == "" || preco <= 0) {
+                alert ("Preencha o preço do  Produto!")
+                return false
+            }
+
+            // let nome = document.getElementById("")
+            alert("O Produto foi salvo com Sucesso!")
+            // alert(names)
+            return false //não vai enviar o formulário!
+        }
+    </script>
+</head>
+
+<body>
+    <a href="index.html">Voltar</a>
+    <h1>Cadastro de Produtos</h1>
+
+    <form onsubmit="return salvar()" name="form-cadastro" id="form-cadastro" method="post">
+        <div class="form-grupo">
+            <label for="">Nome do Produto</label>
+            <input type="text" name="nome" id="nome" maxlength="150" />
+        </div>
+
+        <div class="form-grupo">
+            <label for="">Preço</label>
+            <input type="number" name="preco" id="preco" step="0.1">
+        </div>
+
+        <div class="form-grupo">
+            <label for="">Descrição</label>
+            <textarea name="descricao" id="" rows="5" cols="40"></textarea>
+        </div>
+
+        <div class="form-grupo">
+            <input type="submit" value="Salvar">
+        </div>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.form-grupo input {
+    border: 1px solid #009;
+    border-radius: 10px;
+}
+
+html {
+    
+}
