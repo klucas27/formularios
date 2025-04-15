@@ -1,60 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurante do veneno - Cadastrar Produtos</title>
-    <link rel="stylesheet" href="css/style.css">
-   
-   <script>
-        function salvar(){    
-            let nome = document.getElementById("nome").value.trim()
-            let preco = document.getElementById("preco").value.trim()
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurante do Veneno - Cadastrar produtos</title>
+  <link href="css/style.css" rel="stylesheet" />
+  <script>
+    let produtos = []
 
-            if (nome == "" || nome.length < 3){
-                alert("Preencha o nome do Produto!")
-                return false
-            }
+    function salvar() {
+        let nome = document.getElementById("nome").value.trim()
+        let preco = document.getElementById("preco").value.trim()
+        let descricao = document.getElementById("descricao").value.trim()
 
-            if (preco == "" || preco <= 0) {
-                alert ("Preencha o preço do  Produto!")
-                return false
-            }
-
-            // let nome = document.getElementById("")
-            alert("O Produto foi salvo com Sucesso!")
-            // alert(names)
-            return false //não vai enviar o formulário!
+        if (nome == "" || nome.length < 3) {
+          //alert("Preencha o nome do produto")
+          document.getElementById("erro-nome").style.display = "flex"
+        //   return false
         }
-    </script>
+        if (preco == "" || preco <= 0){
+          //alert("Preencha o preço do produto")
+          document.getElementById("erro-preco").style.display = "flex"
+          return false
+        }
+
+        // cria um objeto JSON
+
+        let novoProduto = {
+            "nome": nome,
+            "preco": preco,
+            "descricao": descricao
+        }
+
+        // adicionando novo produto
+
+        produtos.push(novoProduto)
+
+        console.log(produtos)
+        
+
+        limpaForm()
+        document.getElementById("mensagem").style.display = "flex"
+        setTimeout(function() {document.getElementById("mensagem").style.display = "none"}, 1000)
+        
+        // Recarregar lista de produtos
+
+        carregarProdutos()
+        
+        return false; // Não vai enviar o formulário
+
+    }
+
+    function carregarProdutos () {
+
+      for (let contador = 0; contador <= (produtos.length - 1); contador++){
+
+        // Desenhar uma linha na tabela!
+
+        
+
+      }
+
+    }
+
+    function limpaForm() {
+        document.getElementById("nome").value = ""
+        document.getElementById("preco").value = ""
+        document.getElementById("descricao").value = ""
+        document.getElementById("nome").focus()
+    }
+    
+    function limparErro(id){
+      document.getElementById(id).style.display = "none"
+    }
+
+  </script>
 </head>
-
 <body>
-    <a href="index.html">Voltar</a>
-    <h1>Cadastro de Produtos</h1>
+  <a href="index.html">Voltar</a>
+  <h1>Cadastro de Produtos</h1>
 
-    <form onsubmit="return salvar()" name="form-cadastro" id="form-cadastro" method="post">
-        <div class="form-grupo">
-            <label for="">Nome do Produto</label>
-            <input type="text" name="nome" id="nome" maxlength="150" />
-        </div>
+  <table>
 
-        <div class="form-grupo">
-            <label for="">Preço</label>
-            <input type="number" name="preco" id="preco" step="0.1">
-        </div>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Descrição</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
 
-        <div class="form-grupo">
-            <label for="">Descrição</label>
-            <textarea name="descricao" id="" rows="5" cols="40"></textarea>
-        </div>
+    <tbody>
+      <!-- <tr>
+        <td>Pizza Calabacon</td>
+        <td>67,90</td>
+        <td>Gostosa</td>
+        <td>
+          <button>Alterar</button>
+          <button>Excluir</button>
+        </td>
+      </tr> -->
 
-        <div class="form-grupo">
-            <input type="submit" value="Salvar">
-        </div>
-    </form>
+    </tbody>
 
+  </table>
+
+  <form id="form-cadastro" method="post" onsubmit="return salvar()">
+    <div class="form-grupo">
+      <label for="nome">Nome do Produto</label>
+      <input type="text" name="nome" id="nome" maxlength="150" onkeydown="limparErro('erro-nome')" />
+      <div class="erro" id="erro-nome">Preencha o nome do produto</div>
+    </div>
+    <div class="form-grupo">
+      <label for="preco">Preço</label>
+      <input type="number" name="preco" id="preco" step="0.1" onkeydown="limparErro('erro-preco')" />
+      <div class="erro" id="erro-preco">Preencha o preço</div>
+    </div>
+    <div class="form-grupo">
+      <label for="descricao">Descrição (opcional)</label>
+      <textarea name="descricao" id="descricao" rows="5" cols="40"></textarea>
+    </div>
+    <div class="form-grupo">
+      <input type="submit" value="Salvar" />
+    </div>
+  </form>
+  <div id="mensagem">
+    <p>Produto Cadastrado com sucesso!</p>
+  </div>
 </body>
-
 </html>
