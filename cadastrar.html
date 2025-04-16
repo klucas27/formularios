@@ -1,89 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurante do Veneno - Cadastrar produtos</title>
-  <link href="css/style.css" rel="stylesheet" />
+
+  <!--bootstrap local-->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script>
     let produtos = []
 
     function salvar() {
-        let nome = document.getElementById("nome").value.trim()
-        let preco = document.getElementById("preco").value.trim()
-        let descricao = document.getElementById("descricao").value.trim()
+      let nome = document.getElementById("nome").value.trim()
+      let preco = document.getElementById("preco").value.trim()
+      let descricao = document.getElementById("descricao").value.trim()
 
-        if (nome == "" || nome.length < 3) {
-          //alert("Preencha o nome do produto")
-          document.getElementById("erro-nome").style.display = "flex"
-        //   return false
-        }
-        if (preco == "" || preco <= 0){
-          //alert("Preencha o preço do produto")
-          document.getElementById("erro-preco").style.display = "flex"
-          return false
-        }
+      if (nome == "" || nome.length < 3) {
 
-        // cria um objeto JSON
+        //alert("Preencha o nome do produto")
+        document.getElementById("erro-nome").style.display = "flex"
+        return false
+      }
+      if (preco == "" || preco <= 0) {
 
-        let novoProduto = {
-            "nome": nome,
-            "preco": preco,
-            "descricao": descricao
-        }
+        //alert("Preencha o preço do produto")
+        document.getElementById("erro-preco").style.display = "flex"
+        return false
+      }
 
-        // adicionando novo produto
+      // cria um objeto JSON
 
-        produtos.push(novoProduto)
+      let novoProduto = {
+        "nome": nome,
+        "preco": preco,
+        "descricao": descricao
+      }
 
-        console.log(produtos)
-        
+      // adicionando novo produto
 
-        limpaForm()
-        document.getElementById("mensagem").style.display = "flex"
-        setTimeout(function() {document.getElementById("mensagem").style.display = "none"}, 1000)
-        
-        // Recarregar lista de produtos
+      produtos.push(novoProduto)
 
-        carregarProdutos()
-        
-        return false; // Não vai enviar o formulário
+      // console.log(produtos)
+
+
+      document.getElementById("mensagem").style.display = "flex"
+
+      limpaForm()
+
+      setTimeout(function () { document.getElementById("mensagem").style.display = "none" }, 1300)
+
+      // Recarregar lista de produtos
+
+      carregarProdutos()
+
+      return false; // Não vai enviar o formulário
 
     }
 
-    function carregarProdutos () {
+    function carregarProdutos() {
 
-      for (let contador = 0; contador <= (produtos.length - 1); contador++){
+      tt_produt = produtos.length
 
-        // Desenhar uma linha na tabela!
+      document.getElementsByTagName("tbody")[0].innerHTML = ""
 
-        
+      for (let contador = 0; contador <= (produtos.length - 1); contador++) {
+
+        // Desenha uma linha na tabela!
+
+        let produto = produtos[contador]
+
+        let linha = document.createElement("tr")
+
+        linha.innerHTML = `
+              <tr>
+                <td>${produto.nome}</td>
+                <td>${produto.preco}</td>
+                <td>${produto.descricao}</td>
+                <td>
+                  <button>Alterar</button>
+                  <button>Excluir</button>
+              </td> 
+            </tr>
+        `
+        let tbody = document.getElementsByTagName("tbody")[0]
+        tbody.appendChild(linha)
 
       }
 
     }
 
     function limpaForm() {
-        document.getElementById("nome").value = ""
-        document.getElementById("preco").value = ""
-        document.getElementById("descricao").value = ""
-        document.getElementById("nome").focus()
+      document.getElementById("nome").value = ""
+      document.getElementById("preco").value = ""
+      document.getElementById("descricao").value = ""
+      document.getElementById("nome").focus()
     }
-    
-    function limparErro(id){
+
+    function limparErro(id) {
       document.getElementById(id).style.display = "none"
     }
 
   </script>
-</head>
-<body>
-  <a href="index.html">Voltar</a>
-  <h1>Cadastro de Produtos</h1>
 
-  <table>
+</head>
+
+<body class="container mt-3">
+  <a class="btn btn-secondary position-absolute start-0 ms-3" href="index.html">Voltar</a>
+  <h1 class="text-uppercase p-3 text-primary text-opacity-75">Cadastro de Produtos</h1>
+
+  <table class="border border-1 table table table-borderless table-striped table-hover align-middle">
 
     <thead>
-      <tr>
+      <tr class="align-bottom">
         <th>Nome</th>
         <th>Preço</th>
         <th>Descrição</th>
@@ -91,42 +120,35 @@
       </tr>
     </thead>
 
-    <tbody>
-      <!-- <tr>
-        <td>Pizza Calabacon</td>
-        <td>67,90</td>
-        <td>Gostosa</td>
-        <td>
-          <button>Alterar</button>
-          <button>Excluir</button>
-        </td>
-      </tr> -->
-
+    <tbody table-group-divider>
     </tbody>
 
   </table>
 
-  <form id="form-cadastro" method="post" onsubmit="return salvar()">
-    <div class="form-grupo">
-      <label for="nome">Nome do Produto</label>
-      <input type="text" name="nome" id="nome" maxlength="150" onkeydown="limparErro('erro-nome')" />
-      <div class="erro" id="erro-nome">Preencha o nome do produto</div>
+  <form class="row mb-3 d-grid gap-3" id="form-cadastro" method="post" onsubmit="return salvar()">
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="nome">Nome do Produto</label>
+      <input class="form-control" type="text" name="nome" id="nome" maxlength="150"
+        onkeydown="limparErro('erro-nome')" />
+      <div class="invalid-feedback" id="erro-nome">Preencha o nome do produto</div>
     </div>
-    <div class="form-grupo">
-      <label for="preco">Preço</label>
-      <input type="number" name="preco" id="preco" step="0.1" onkeydown="limparErro('erro-preco')" />
-      <div class="erro" id="erro-preco">Preencha o preço</div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="preco">Preço</label>
+      <input class="form-control" type="number" name="preco" id="preco" step="0.1"
+        onkeydown="limparErro('erro-preco')" />
+      <div class="invalid-feedback" id="erro-preco">Preencha o preço</div>
     </div>
-    <div class="form-grupo">
-      <label for="descricao">Descrição (opcional)</label>
-      <textarea name="descricao" id="descricao" rows="5" cols="40"></textarea>
+    <div class="form-floating">
+      <textarea class="form-control" name="descricao" id="descricao" rows="5" cols="40"></textarea>
+      <label class="ms-3" for="descricao">Descrição (opcional)</label>
     </div>
-    <div class="form-grupo">
-      <input type="submit" value="Salvar" />
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <input class="btn btn-outline-primary" type="submit" value="Salvar" />
     </div>
   </form>
-  <div id="mensagem">
-    <p>Produto Cadastrado com sucesso!</p>
+  <div class="alert alert-success align-items-center" style="display: none;" id="mensagem">
+    Produto Cadastrado com sucesso!
   </div>
 </body>
+
 </html>
