@@ -11,7 +11,25 @@
   <script>
     let produtos = []
 
+    function getProximoId() {
+
+      if (produtos.length > 0) {
+
+        let ultimoProduto = produtos[produtos.length - 1]
+
+        let maxId = ultimoProduto.id
+
+        return maxId + 1
+
+      } else {
+        return 1
+      }
+
+    }
+
     function salvar() {
+
+
       let nome = document.getElementById("nome").value.trim()
       let preco = document.getElementById("preco").value.trim()
       let descricao = document.getElementById("descricao").value.trim()
@@ -31,11 +49,16 @@
 
       // cria um objeto JSON
 
+      let proximoId = getProximoId()
+
       let novoProduto = {
+        "id": proximoId,
         "nome": nome,
         "preco": preco,
         "descricao": descricao
       }
+
+      console.log(novoProduto)
 
       // adicionando novo produto
 
@@ -58,9 +81,10 @@
 
     }
 
+
     function carregarProdutos() {
 
-      tt_produt = produtos.length
+      // tt_produt = produtos.length
 
       document.getElementsByTagName("tbody")[0].innerHTML = ""
 
