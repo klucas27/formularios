@@ -10,11 +10,18 @@
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script>
     let produtos = []
+    let idAlterado = null
 
+    function adicionar(){
+
+      idAlterado = null
+      limpaForm()
+
+    }
 
     function alterarProdutos(id) {
 
-      for (let contador = 0; contador <= produtos.length - 1; contador++){
+      for (let contador = 0; contador <= produtos.length - 1; contador++) {
         let produto = produtos[contador]
 
         if (produto.id == id) {
@@ -22,17 +29,21 @@
           document.getElementById("nome").value = produto.nome
           document.getElementById("preco").value = produto.preco
           document.getElementById("descricao").value = produto.descricao
+          idAlterado = produto.id
+          // console.log(idAlterado)
+          break
         }
-        
 
       }
+
+
       // alert(id)  
 
     }
 
     function excluirProdutos(id) {
 
-      for (let contador = 0; contador <= produtos.length - 1; contador++){
+      for (let contador = 0; contador <= produtos.length - 1; contador++) {
         let produto = produtos[contador]
 
         if (produto.id == id) {
@@ -64,6 +75,7 @@
 
     function salvar() {
 
+      console.log(idAlterado)
 
       let nome = document.getElementById("nome").value.trim()
       let preco = document.getElementById("preco").value.trim()
@@ -83,21 +95,39 @@
       }
 
       // cria um objeto JSON
+      if (idAlterado == null) {
 
-      let proximoId = getProximoId()
+        let proximoId = getProximoId()
 
-      let novoProduto = {
-        "id": proximoId,
-        "nome": nome,
-        "preco": preco,
-        "descricao": descricao
+        let novoProduto = {
+          "id": proximoId,
+          "nome": nome,
+          "preco": preco,
+          "descricao": descricao
+        }
+
+        console.log(novoProduto)
+
+        // adicionando novo produto
+
+        produtos.push(novoProduto)
+      } else {
+
+        for(let contador = 0; contador <= produtos.length - 1; contador++){
+          let produto = produtos[contador]
+          if (produto.id == idAlterado){
+            produtos[contador].nome = nome
+            produtos[contador].preco = preco
+            produtos[contador].descricao = descricao
+            idAlterado = null
+            console.log(idAlterado)
+            break
+
+          }
+
+        }
+
       }
-
-      console.log(novoProduto)
-
-      // adicionando novo produto
-
-      produtos.push(novoProduto)
 
       // console.log(produtos)
 
@@ -167,6 +197,8 @@
 <body class="container mt-3">
   <a class="btn btn-secondary position-absolute start-0 ms-3" href="index.html">Voltar</a>
   <h1 class="text-uppercase p-3 text-primary text-opacity-75">Cadastro de Produtos</h1>
+
+  <button lass="btn btn-outline-primary" onclick="adicionar()">Cancelar Alteração</button>
 
   <table class="border border-1 table table table-borderless table-striped table-hover align-middle">
 
